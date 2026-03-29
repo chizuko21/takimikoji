@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>滝見小路の、百年文通</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Noto+Serif+JP:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1208;
+    --sepia: #8b6914;
+    --paper: #f2e8d5;
+    --aged: #d4b896;
+    --smoke: #6b5c4a;
+    --ember: #c0392b;
+    --gold: #c9a84c;
+    --ghost: rgba(242,232,213,0.08);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html { height: 100%; }
+
+  body {
+    background: #0d0a06;
+    color: var(--paper);
+    font-family: 'Noto Serif JP', serif;
+    min-height: 100%;
+    min-height: -webkit-fill-available;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+    touch-action: manipulation;
+  }
+
+  /* 煙のような背景 */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 80%, rgba(139,105,20,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 80% 20%, rgba(192,57,43,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse 100% 100% at 50% 50%, rgba(13,10,6,0.8) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ノイズテクスチャ */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  .app {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+
+  /* ===== タイトル画面 ===== */
+  #screen-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    padding: calc(40px + var(--safe-top)) 20px calc(40px + var(--safe-bottom));
+    text-align: center;
+  }
+
+  .title-kamon {
+    width: 56px;
+    height: 56px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    animation: pulse-gold 3s ease-in-out infinite;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .title-kamon::before {
+    content: '桐';
+    font-family: 'Shippori Mincho', serif;
+    font-size: 24px;
+    color: var(--gold);
+  }
+  .title-kamon::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 50%;
+    animation: pulse-gold 3s ease-in-out infinite reverse;
+  }
+
+  @keyframes pulse-gold {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
+
+  .title-year {
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--sepia);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+
+  .title-main {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.7;
+    color: var(--paper);
+    margin-bottom: 6px;
+  }
+
+  .title-sub {
+    font-size: 11px;
+    color: var(--aged);
+    letter-spacing: 0.15em;
+    margin-bottom: 32px;
+    line-height: 2;
+  }
+
+  .title-story {
+    font-size: 12px;
+    color: rgba(212,184,150,0.8);
+    line-height: 2.2;
+    text-align: left;
+    margin-bottom: 36px;
+    padding: 18px 16px;
+    border-left: 1px solid rgba(201,168,76,0.3);
+    position: relative;
+    width: 100%;
+  }
+  .title-story::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -1px;
+    width: 1px; height: 36px;
+    background: var(--gold);
+  }
+
+  .btn-start {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 16px 40px;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 15px;
+    letter-spacing: 0.3em;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    -webkit-appearance: none;
+    border-radius: 0;
+    min-height: 52px;
+  }
+  .btn-start:active { opacity: 0.7; }
+
+  /* ===== 謎画面 ===== */
+  .screen {
+    display: none;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    flex-direction: column;
+  }
+  .screen.active { display: flex; }
+
+  /* 進行バー */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: rgba(201,168,76,0.15);
+    z-index: 100;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--sepia), var(--gold));
+    transition: width 0.8s ease;
+  }
+
+  /* 謎カード */
+  .nazo-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: calc(52px + var(--safe-top)) 20px calc(24px + var(--safe-bottom));
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nazo-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .nazo-number {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 36px;
+    font-weight: 800;
+    color: rgba(201,168,76,0.2);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .nazo-location {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--sepia);
+  }
+
+  /* 日記風テキスト */
+  .diary-block {
+    background: rgba(242,232,213,0.04);
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 20px 16px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .diary-block::before {
+    content: '曽祖父の日記';
+    position: absolute;
+    top: -9px; left: 14px;
+    background: #0d0a06;
+    padding: 0 6px;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+  }
+
+  .diary-text {
+    font-size: 14px;
+    line-height: 2.4;
+    color: var(--aged);
+  }
+
+  /* 場所説明 */
+  .location-hint {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding: 10px 14px;
+    background: rgba(192,57,43,0.06);
+    border-left: 2px solid rgba(192,57,43,0.4);
+  }
+  .location-hint-icon { font-size: 14px; flex-shrink: 0; margin-top: 2px; }
+  .location-hint-text {
+    font-size: 12px;
+    color: rgba(212,184,150,0.7);
+    letter-spacing: 0.05em;
+    line-height: 1.8;
+  }
+
+  /* 入力エリア */
+  .answer-area { margin-top: auto; padding-top: 16px; }
+
+  .answer-label {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--smoke);
+    margin-bottom: 10px;
+  }
+
+  .answer-input-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .answer-input {
+    width: 100%;
+    background: rgba(242,232,213,0.05);
+    border: none;
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+    color: var(--paper);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 20px;
+    padding: 10px 4px;
+    text-align: center;
+    letter-spacing: 0.3em;
+    outline: none;
+    transition: border-color 0.3s;
+    border-radius: 0;
+    -webkit-appearance: none;
+    min-height: 44px;
+  }
+  .answer-input:focus { border-bottom-color: var(--gold); }
+  .answer-input::placeholder {
+    color: rgba(107,92,74,0.4);
+    font-size: 13px;
+    letter-spacing: 0.2em;
+  }
+
+  .btn-answer {
+    width: 100%;
+    background: transparent;
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold);
+    padding: 0;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 14px;
+    letter-spacing: 0.3em;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+    -webkit-appearance: none;
+    border-radius: 0;
+    min-height: 48px;
+  }
+  .btn-answer:active { background: rgba(201,168,76,0.12); }
+
+  .answer-error {
+    font-size: 12px;
+    color: var(--ember);
+    margin-top: 10px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    letter-spacing: 0.1em;
+    min-height: 20px;
+  }
+  .answer-error.show { opacity: 1; }
+
+  /* ヒントボタン */
+  .btn-hint {
+    background: none;
+    border: none;
+    color: rgba(107,92,74,0.6);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    margin-top: 18px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-family: 'Noto Serif JP', serif;
+    padding: 4px 0;
+    -webkit-appearance: none;
+  }
+
+  .hint-text {
+    display: none;
+    font-size: 12px;
+    color: rgba(139,105,20,0.7);
+    margin-top: 10px;
+    line-height: 2;
+    padding: 12px;
+    border: 1px dashed rgba(139,105,20,0.2);
+  }
+  .hint-text.show { display: block; }
+
+  /* ===== あの日の真実モーダル ===== */
+  .memory-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    pointer-events: none;
+    transition: background 0.8s;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .memory-overlay.show {
+    background: rgba(0,0,0,0.94);
+    pointer-events: all;
+  }
+
+  .memory-card {
+    width: 100%;
+    max-width: 400px;
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+    transition: all 0.8s cubic-bezier(0.16,1,0.3,1);
+    margin: auto;
+  }
+  .memory-overlay.show .memory-card {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .memory-label {
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    color: var(--ember);
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .memory-frame {
+    border: 1px solid rgba(192,57,43,0.3);
+    padding: 24px 20px;
+    position: relative;
+    background: rgba(13,10,6,0.97);
+  }
+  .memory-frame::before,
+  .memory-frame::after {
+    content: '';
+    position: absolute;
+    width: 16px; height: 16px;
+    border-color: var(--ember);
+    border-style: solid;
+    opacity: 0.4;
+  }
+  .memory-frame::before { top: 8px; left: 8px; border-width: 1px 0 0 1px; }
+  .memory-frame::after  { bottom: 8px; right: 8px; border-width: 0 1px 1px 0; }
+
+  .memory-number {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: rgba(192,57,43,0.5);
+    margin-bottom: 16px;
+    font-family: 'Shippori Mincho', serif;
+  }
+
+  .memory-text {
+    font-size: 13px;
+    line-height: 2.5;
+    color: rgba(212,184,150,0.85);
+    white-space: pre-wrap;
+  }
+
+  .memory-smoke {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(192,57,43,0.15);
+    font-size: 11px;
+    color: rgba(107,92,74,0.6);
+    letter-spacing: 0.1em;
+    line-height: 2;
+  }
+
+  .btn-memory-close {
+    display: block;
+    width: 100%;
+    background: transparent;
+    border: 1px solid rgba(192,57,43,0.3);
+    color: rgba(192,57,43,0.7);
+    padding: 16px;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    cursor: pointer;
+    margin-top: 20px;
+    -webkit-appearance: none;
+    border-radius: 0;
+    min-height: 52px;
+  }
+  .btn-memory-close:active { background: rgba(192,57,43,0.08); }
+
+  /* 炎のエフェクト */
+  .fire-particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 190;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    bottom: -20px;
+    width: 3px;
+    border-radius: 50%;
+    animation: rise linear forwards;
+    opacity: 0;
+  }
+  @keyframes rise {
+    0%   { opacity: 0.8; transform: translateY(0) scaleX(1); }
+    50%  { opacity: 0.4; transform: translateY(-40vh) scaleX(1.5); }
+    100% { opacity: 0;   transform: translateY(-80vh) scaleX(0.5); }
+  }
+
+  /* ===== どんでん返し画面 ===== */
+  #screen-donten {
+    padding: calc(52px + var(--safe-top)) 20px calc(32px + var(--safe-bottom));
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .donten-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 12px;
+    letter-spacing: 0.4em;
+    color: var(--ember);
+    margin-bottom: 28px;
+  }
+
+  .answers-collected { margin-bottom: 28px; }
+
+  .answers-label {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--smoke);
+    margin-bottom: 12px;
+  }
+
+  .answers-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .answer-char {
+    width: 40px; height: 40px;
+    border: 1px solid rgba(201,168,76,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 18px;
+    color: var(--aged);
+    flex-shrink: 0;
+  }
+  .answers-arrow { font-size: 14px; color: rgba(201,168,76,0.2); }
+
+  .donten-diary {
+    background: rgba(242,232,213,0.03);
+    border: 1px solid rgba(192,57,43,0.2);
+    padding: 24px 18px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .donten-diary::before {
+    content: '封印の頁';
+    position: absolute;
+    top: -9px; left: 14px;
+    background: #0d0a06;
+    padding: 0 6px;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--ember);
+  }
+
+  .donten-text {
+    font-size: 14px;
+    line-height: 2.6;
+    color: rgba(212,184,150,0.8);
+  }
+  .donten-text strong { color: var(--paper); font-weight: 400; }
+
+  .btn-resolve {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 0;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 15px;
+    letter-spacing: 0.4em;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 16px;
+    -webkit-appearance: none;
+    border-radius: 0;
+    min-height: 56px;
+  }
+  .btn-resolve:active { background: rgba(201,168,76,0.08); }
+
+  /* ===== 解き直し・エンディング共通 ===== */
+  .resolve-answer {
+    text-align: center;
+    padding: 32px 0;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    margin-bottom: 24px;
+  }
+
+  .resolve-answer-label {
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    color: var(--smoke);
+    margin-bottom: 16px;
+  }
+
+  .resolve-answer-text {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 28px;
+    color: var(--gold);
+    letter-spacing: 0.25em;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 1s 0.5s;
+  }
+  .resolve-answer-text.show { opacity: 1; transform: translateY(0); }
+
+  .resolve-answer-reading {
+    font-size: 13px;
+    color: var(--aged);
+    margin-top: 10px;
+    letter-spacing: 0.2em;
+    opacity: 0;
+    transition: opacity 0.8s 1.2s;
+  }
+  .resolve-answer-reading.show { opacity: 1; }
+
+  .btn-ending {
+    width: 100%;
+    background: transparent;
+    border: 1px solid rgba(192,57,43,0.5);
+    color: rgba(192,57,43,0.8);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 14px;
+    letter-spacing: 0.4em;
+    cursor: pointer;
+    -webkit-appearance: none;
+    border-radius: 0;
+    min-height: 56px;
+  }
+  .btn-ending:active { background: rgba(192,57,43,0.06); }
+
+  /* 解き直し画面スクロール */
+  #screen-resolve {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .resolve-intro {
+    font-size: 13px;
+    color: rgba(212,184,150,0.7);
+    line-height: 2.2;
+    margin-bottom: 28px;
+  }
+
+  /* ===== エンディング画面 ===== */
+  #screen-ending {
+    padding: calc(52px + var(--safe-top)) 20px calc(48px + var(--safe-bottom));
+    text-align: center;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ending-flame {
+    font-size: 28px;
+    margin-bottom: 24px;
+    animation: flicker 2s ease-in-out infinite;
+  }
+  @keyframes flicker {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(0.95); }
+  }
+
+  .stone-plate {
+    border: 1px solid rgba(201,168,76,0.25);
+    padding: 24px 18px;
+    margin-bottom: 28px;
+    position: relative;
+    text-align: left;
+  }
+  .stone-plate::before {
+    content: 'あの日の真実・最後の断片';
+    position: absolute;
+    top: -9px; left: 14px;
+    background: #0d0a06;
+    padding: 0 6px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+  }
+  .stone-plate-text {
+    font-size: 13px;
+    line-height: 2.5;
+    color: var(--aged);
+  }
+
+  .final-letter {
+    border: 1px solid rgba(192,57,43,0.2);
+    padding: 24px 18px;
+    margin-bottom: 28px;
+    text-align: left;
+    position: relative;
+  }
+  .final-letter::before {
+    content: '曽祖父の日記・最終頁';
+    position: absolute;
+    top: -9px; left: 14px;
+    background: #0d0a06;
+    padding: 0 6px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ember);
+  }
+  .final-letter-text {
+    font-size: 13px;
+    line-height: 2.7;
+    color: rgba(212,184,150,0.85);
+  }
+  .final-letter-text em { font-style: normal; color: var(--paper); }
+
+  .ending-close {
+    font-size: 13px;
+    color: rgba(107,92,74,0.5);
+    line-height: 2.5;
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  .ending-close strong {
+    display: block;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 14px;
+    color: rgba(212,184,150,0.6);
+    margin-top: 14px;
+    letter-spacing: 0.2em;
+  }
+
+  /* フェードイン */
+  @keyframes fadeIn { to { opacity: 1; } }
+
+  /* ページ遷移 */
+  .page-transition {
+    position: fixed;
+    inset: 0;
+    background: #0d0a06;
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s;
+  }
+  .page-transition.show { opacity: 1; pointer-events: all; }
+
+  /* スクロール */
+  .screen { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+</style>
+</head>
+<body>
+
+<div class="page-transition" id="transition"></div>
+<div class="fire-particles" id="fireParticles"></div>
+
+<!-- 進行バー -->
+<div class="progress-bar">
+  <div class="progress-fill" id="progressFill" style="width:0%"></div>
+</div>
+
+<!-- 記憶の断片モーダル -->
+<div class="memory-overlay" id="memoryOverlay">
+  <div class="memory-card">
+    <div class="memory-label">— あの日の真実 —</div>
+    <div class="memory-frame">
+      <div class="memory-number" id="memoryNumber"></div>
+      <div class="memory-text" id="memoryText"></div>
+      <div class="memory-smoke" id="memorySmoke"></div>
+    </div>
+    <button class="btn-memory-close" onclick="closeMemory()">
+      日記に戻る
+    </button>
+  </div>
+</div>
+
+<!-- ===== タイトル画面 ===== -->
+<div class="app">
+<div id="screen-title" class="screen active">
+  <div class="title-kamon"></div>
+  <div class="title-year">大正十二年 → 現代</div>
+  <div class="title-main">滝見小路の、<br>百年文通</div>
+  <div class="title-sub">― 大正と現代、二つの時代が交差する謎解き ―</div>
+  <div class="title-story">
+    俺は梅田スカイビルの地下にある滝見小路が好きだ。<br><br>
+    というのもこの路地のモデルとなった路地が大正時代に実在しており、曽祖父の思い出の場所だからだ。<br><br>
+    その路地はひいおばあちゃんとのデートの場所であり、不思議な体験をした場所でもあったそうなのだが、ある時火事で焼けてしまった。もう一度あの路地を歩きたい——それがひいじいちゃんの遺言だった。<br><br>
+    スカイビルの滝見小路ができたのは、ひいじいちゃんが亡くなってずいぶん経ったころだった。生きていたら、さぞ喜んだだろう。<br><br>
+    ある時、ひいじいちゃんの日記が見つかったと父から連絡があった。<br><br>
+    そこには——不思議な暗号が、散りばめられていた。
+  </div>
+  <button class="btn-start" onclick="startGame()">日記を開く</button>
+</div>
+
+<!-- ===== 謎①〜⑤ ===== -->
+<div id="screen-nazo" class="screen" style="display:none; flex-direction:column; min-height:100vh;">
+  <div class="nazo-card">
+    <div class="nazo-header">
+      <div class="nazo-number" id="nazoNumber">01</div>
+      <div class="nazo-location" id="nazoLocation"></div>
+    </div>
+    <div class="diary-block">
+      <div class="diary-text" id="nazoText"></div>
+    </div>
+    <div class="location-hint">
+      <div class="location-hint-icon">📍</div>
+      <div class="location-hint-text" id="nazoHintLocation"></div>
+    </div>
+    <div class="answer-area">
+      <div class="answer-label">答えを入力せよ（ひらがな一文字）</div>
+      <div class="answer-input-row">
+        <input class="answer-input" id="answerInput" type="text" maxlength="3" placeholder="こたえ" autocomplete="off">
+        <button class="btn-answer" onclick="checkAnswer()">解く</button>
+      </div>
+      <div class="answer-error" id="answerError">違う。もう一度考えよ。</div>
+      <button class="btn-hint" onclick="toggleHint()">手がかりが欲しい</button>
+      <div class="hint-text" id="hintText"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== どんでん返し画面 ===== -->
+<div id="screen-donten" class="screen" style="display:none;">
+  <div class="donten-title">— 交番の前にて —</div>
+
+  <div class="answers-collected">
+    <div class="answers-label">集めた答え</div>
+    <div class="answers-row" id="answersRowWrong"></div>
+    <div style="font-size:11px; color:var(--smoke); margin:12px 0; letter-spacing:0.2em;">
+      並べると……「<span id="wrongWord" style="color:rgba(192,57,43,0.6)"></span>」
+    </div>
+    <div style="font-size:12px; color:rgba(107,92,74,0.5); letter-spacing:0.1em;">意味がわからない。</div>
+  </div>
+
+  <div class="donten-diary">
+    <div class="donten-text">
+      「その言葉ではない。<br><br>
+      わしが見ている景色と<br>
+      お前が見ている景色は<br>
+      同じだろうか？<br><br>
+      ——桐島 冬吾」
+    </div>
+  </div>
+
+  <button class="btn-hint-link" onclick="showDontenHint()" style="background:none;border:none;color:rgba(107,92,74,0.5);font-size:11px;letter-spacing:0.2em;cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-family:'Noto Serif JP',serif;margin-top:8px;display:block;">解けない</button>
+  <div id="dontenHintBox" style="display:none; margin-top:20px; padding:20px 20px; border:1px dashed rgba(139,105,20,0.25); font-size:12px; color:rgba(139,105,20,0.75); line-height:2.4; letter-spacing:0.1em;">
+    大正時代の文字の並びは、現代とは逆順だった。<br><br>
+    現代：左 → 右<br>
+    大正：右 → 左<br><br>
+    曽祖父の謎も、すべて逆から読むべきだったのかもしれない。
+  </div>
+
+  <button class="btn-resolve" onclick="goResolve()" style="margin-top:28px;">解き直す</button>
+</div>
+
+<!-- ===== 解き直し画面 ===== -->
+<div id="screen-resolve" class="screen" style="display:none; padding: calc(52px + var(--safe-top)) 20px calc(32px + var(--safe-bottom)); flex-direction:column;">
+
+  <!-- 解き直し謎カード -->
+  <div id="resolveNazoCard">
+    <div class="nazo-header" style="margin-bottom:24px;">
+      <div class="nazo-number" id="resolveNazoNumber">01</div>
+      <div class="nazo-location" id="resolveNazoLocation"></div>
+    </div>
+    <div class="diary-block" style="margin-bottom:20px;">
+      <div class="diary-text" id="resolveNazoText"></div>
+    </div>
+    <div class="location-hint" style="margin-bottom:24px;">
+      <div class="location-hint-icon">📍</div>
+      <div class="location-hint-text" id="resolveNazoHint"></div>
+    </div>
+    <div class="answer-area">
+      <div class="answer-label">答えを入力せよ（ひらがな一文字）</div>
+      <div class="answer-input-row">
+        <input class="answer-input" id="resolveInput" type="text" maxlength="3" placeholder="こたえ" autocomplete="off">
+        <button class="btn-answer" onclick="checkResolveAnswer()">解く</button>
+      </div>
+      <div class="answer-error" id="resolveError">違う。今度こそ、逆から考えよ。</div>
+    </div>
+  </div>
+
+  <!-- 正解が揃ったら表示 -->
+  <div id="resolveComplete" style="display:none;">
+    <div class="resolve-answer">
+      <div class="resolve-answer-text" id="resolveAnswerText">ま・え・に・い・け</div>
+      <div class="resolve-answer-reading" id="resolveAnswerReading">「前に行け」</div>
+    </div>
+    <button class="btn-ending" id="btnEnding" onclick="goEnding()">
+      真相を見る
+    </button>
+  </div>
+</div>
+
+<!-- ===== エンディング画面 ===== -->
+<div id="screen-ending" class="screen" style="display:none; flex-direction:column;">
+  <div class="ending-flame">🔥</div>
+
+  <div class="stone-plate">
+    <div class="stone-plate-text">
+      「大正の火事の夜。<br>
+      煙が満ちたこの路地で、見知らぬ声が叫んだ。<br><br>
+      『前に行け』——と。<br><br>
+      その声でわしとお花は前へ走り、命を得た。<br><br>
+      路地は焼けた。<br>
+      声の主は、ついにわからなかった。<br><br>
+      ——桐島 冬吾」
+    </div>
+  </div>
+
+  <div class="final-letter">
+    <div class="final-letter-text">
+      「この謎を解いた者よ。<br><br>
+      教えてくれ。<br><br>
+      あの路地は——どこかにあるか。<br><br>
+      あるなら、わしの代わりに歩いてくれ。<br>
+      お花と歩いたあの路地を。<br><br>
+      それが——わしの遺言だ。<br><br>
+      そして——<br><br>
+      <em>あの夜、煙の中にいたのは、お前だろう。</em><br><br>
+      <em>わしの日記を、手に持って。</em><br><br>
+      なぜお前がそこにいたのかは、わからぬ。<br>
+      どうやって声が届いたのかも、わからぬ。<br><br>
+      ただ——<em>お前が来てくれたから、</em><br>
+      <em>わしとお花は、今日もここにいる。</em><br><br>
+      ありがとう。<br><br>
+      ——冬吾」
+    </div>
+  </div>
+
+  <div class="ending-close">
+    お前はすでに、その路地を歩いている。<br><br>
+    謎を解きながら、冬吾とお花が歩いた道を。<br><br>
+    手の中にある日記が——<br>
+    少しだけ、温かく感じた。<br><br>
+    遺言は。<br><br>
+    <em style="color:var(--gold); font-size:18px; font-family:'Shippori Mincho',serif; font-style:normal;">今日、叶った。</em>
+    <strong>— 了 —</strong>
+  </div>
+</div>
+
+</div><!-- /app -->
+
+<script>
+// ===== データ =====
+const nazoData = [
+  {
+    number: '01',
+    location: '丸ポスト前',
+    text: 'お花への文を、この赤い筒に何度投じたことか。\n\nポストの腹に記された数字の列を見よ。\n\nその数だけ音を数えよ。\n\nそれが最初の鍵なり。',
+    hintLocation: '滝見小路の入口付近にある赤い丸ポスト\n台座または胴体に貼られた番号札を探せ',
+    hint: '数字の列は「5・3・1・4」。\n五十音の5番目は……「お」。\n\nだが、本当にそれでよいか。',
+    wrongAnswer: 'す',
+    correctAnswer: 'す',
+    memoryIndex: 0
+  },
+  {
+    number: '02',
+    location: 'ニッパー君のそば',
+    text: 'この犬によく似た犬が、路地の入口にいた。\n\nいつも小首をかしげ、ある方向を向いておった。\n\n犬の視線の先にある看板——\n\n最初の文字を取れ。',
+    hintLocation: 'ビクター犬（ニッパー君）の置物\n犬が向いている方向を確認せよ',
+    hint: '犬の視線の先の看板に「く・え・ま」と書かれている。\n最初の文字は「く」。\n\nだが、本当にそれでよいか。',
+    wrongAnswer: 'く',
+    correctAnswer: 'く',
+    memoryIndex: 1
+  },
+  {
+    number: '03',
+    location: '稲荷神社の前',
+    text: 'お花はこの神社でいつも手を合わせた。\n\n鳥居の柱の本数——\n\nその数を音に直せ。\n\n神様が教えてくれる。',
+    hintLocation: '滝見小路の稲荷神社\n鳥居の柱の本数を数えよ（日記の図を参照）',
+    hint: '柱の本数は5本。\n五十音の5番目は「お」。\n\nだが、本当にそれでよいか。',
+    wrongAnswer: 'え',
+    correctAnswer: 'え',
+    memoryIndex: 2
+  },
+  {
+    number: '04',
+    location: 'ミゼットの荷台',
+    text: '路地の男たちはみなこの車で荷を運んだ。\n\n荷台の板の数を数えよ。\n\nその数が、次の鍵だ。',
+    hintLocation: 'ダイハツ・ミゼット（三輪自動車）\n荷台の木の板の枚数を数えよ',
+    hint: '板の枚数は6枚。\n五十音の6番目は「む」。\n\nだが、本当にそれでよいか。',
+    wrongAnswer: 'な',
+    correctAnswer: 'な',
+    memoryIndex: 3
+  },
+  {
+    number: '05',
+    location: '井戸の前',
+    text: '火事の夜、わしとお花はこの井戸の前に立っておった。\n\n井戸を囲む石畳——その数を数えよ。\n\nその夜の記憶が、最後の鍵になる。',
+    hintLocation: '滝見小路の井戸\n井戸の周囲を囲む石畳の数を数えよ',
+    hint: '石畳の数は3個。\n五十音の3番目は「う」。\n\nだが、本当にそれでよいか。',
+    wrongAnswer: 'い',
+    correctAnswer: 'い',
+    memoryIndex: 4
+  }
+];
+
+// 解き直し用：正解は逆から読んだ答え
+const resolveData = [
+  { location: '丸ポスト前',   wrongAnswer: 'す', correctAnswer: 'ま', hint: '数字の列を逆から読み直せ。\n右端の数字から数えよ。' },
+  { location: 'ニッパー君',   wrongAnswer: 'く', correctAnswer: 'え', hint: '看板の文字を逆から読み直せ。' },
+  { location: '稲荷神社',     wrongAnswer: 'え', correctAnswer: 'に', hint: '鳥居を逆から数えよ。' },
+  { location: 'ミゼットの荷台', wrongAnswer: 'な', correctAnswer: 'い', hint: '荷台の板を逆から数えよ。' },
+  { location: '井戸の前',     wrongAnswer: 'い', correctAnswer: 'け', hint: '石畳を逆から数えよ。' }
+];
+
+const memories = [
+  {
+    number: '断片 一',
+    text: '大正の夜。\n\n路地のどこかで、火の粉が上がった。\n\n冬吾は気づいていなかった。\nお花と並んで、赤いポストの前に立っていた。\n\n「また手紙、出してくれた？」\nお花が笑った。\n\nその笑顔の向こうで——\n煙が、ゆっくりと路地に満ち始めていた。',
+    smoke: '煙の匂いに、誰も気づいていなかった。'
+  },
+  {
+    number: '断片 二',
+    text: '路地の犬が吠えた。\n\n煙の匂いに、人々がざわめき始めた。\n冬吾はお花の手を掴んだ。\n\n「どっちへ逃げる」\n冬吾は叫んだが、声が煙に飲まれた。\n\n出口がわからなかった。\n左か、右か。\n前か、後ろか。\n\nお花が咳き込んだ。',
+    smoke: '炎の音が、近づいてきた。'
+  },
+  {
+    number: '断片 三',
+    text: '神社の鳥居が、赤く染まっていた。\n炎の色で。\n\n冬吾はお花を庇い、しゃがんだ。\n煙は低いところに溜まる——\n誰かに聞いたはずなのに、体が動かなかった。\n\nお花の手が、冷たくなっていた。\n\n「冬吾さん——」\n\n声が、途切れた。',
+    smoke: '二人は、もう動けなかった。'
+  },
+  {
+    number: '断片 四',
+    text: '三輪車の荷台が燃えていた。\n\n冬吾はもう立てなかった。\nお花を抱えたまま、路地の真ん中にいた。\n\n煙の向こうに——\n誰かの影が見えた。\n\n人影は、何かを持っていた。\n古びた、小さな冊子を。\n\n冬吾には、それが何かわからなかった。',
+    smoke: '人影は——こちらを見ていた。'
+  },
+  {
+    number: '断片 五・最後',
+    text: '声が聞こえた。\n\n大きな、必死な声だった。\n\n「——　——」\n\n文字が、煙で滲んでいる。\n\n冬吾はその声に、体が動いた。\nお花の手を引いて、走った。\n\n背後で、轟音がした。\n井戸のそばの棚が、崩れ落ちた。\n\n声がなければ——\n二人はそこにいた。\n\n振り返ると、煙の中に人影があった。\n手に、冊子を持ったまま。\n\nその人影は——こちらを見ていた。\n\nその冊子は——\nいま、あなたの手の中にある。\nその日記だった。',
+    smoke: 'あなたが、声の主だ。'
+  }
+];
+
+// ===== 状態 =====
+let currentNazo = 0;
+let wrongAnswers = [];
+let hintVisible = false;
+let memoryVisible = false;
+let currentResolve = 0;
+
+// ===== ユーティリティ =====
+function $(id) { return document.getElementById(id); }
+
+function showTransition(cb) {
+  const t = $('transition');
+  t.classList.add('show');
+  setTimeout(() => {
+    cb();
+    setTimeout(() => t.classList.remove('show'), 400);
+  }, 400);
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => {
+    s.style.display = 'none';
+    s.classList.remove('active');
+  });
+  const s = $(id);
+  s.style.display = 'flex';
+  s.classList.add('active');
+}
+
+function updateProgress(step) {
+  const pct = (step / 8) * 100;
+  $('progressFill').style.width = pct + '%';
+}
+
+// 炎のパーティクル
+function spawnFire(count = 12) {
+  const container = $('fireParticles');
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const x = 10 + Math.random() * 80;
+    const size = 2 + Math.random() * 4;
+    const dur = 1.5 + Math.random() * 2;
+    const delay = Math.random() * 0.8;
+    const colors = ['#c0392b','#e67e22','#f39c12','#d35400'];
+    p.style.cssText = `
+      left:${x}%;
+      width:${size}px;
+      height:${size * 3}px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${dur}s;
+      animation-delay:${delay}s;
+    `;
+    container.appendChild(p);
+    setTimeout(() => p.remove(), (dur + delay) * 1000 + 200);
+  }
+}
+
+// ===== ゲーム開始 =====
+function startGame() {
+  showTransition(() => {
+    showScreen('screen-nazo');
+    loadNazo(0);
+    updateProgress(0);
+  });
+}
+
+function loadNazo(index) {
+  const d = nazoData[index];
+  $('nazoNumber').textContent = d.number;
+  $('nazoLocation').textContent = d.location;
+  $('nazoText').textContent = d.text;
+  $('nazoHintLocation').textContent = d.hintLocation;
+  $('hintText').textContent = d.hint;
+  $('hintText').classList.remove('show');
+  $('answerInput').value = '';
+  $('answerError').classList.remove('show');
+  hintVisible = false;
+  updateProgress(index);
+}
+
+function toggleHint() {
+  hintVisible = !hintVisible;
+  $('hintText').classList.toggle('show', hintVisible);
+}
+
+function checkAnswer() {
+  const input = $('answerInput').value.trim();
+  const d = nazoData[currentNazo];
+  if (input === d.wrongAnswer) {
+    wrongAnswers.push(d.wrongAnswer);
+    $('answerError').classList.remove('show');
+    showMemory(currentNazo);
+  } else {
+    $('answerError').classList.add('show');
+    $('answerInput').style.borderBottomColor = 'var(--ember)';
+    setTimeout(() => { $('answerInput').style.borderBottomColor = ''; }, 600);
+  }
+}
+
+function showMemory(index) {
+  const m = memories[index];
+  $('memoryNumber').textContent = m.number;
+  $('memoryText').textContent = m.text;
+  $('memorySmoke').textContent = m.smoke;
+  const overlay = $('memoryOverlay');
+  overlay.classList.add('show');
+  if (index === 4) {
+    spawnFire(20);
+    setTimeout(() => spawnFire(15), 800);
+  }
+}
+
+function closeMemory() {
+  $('memoryOverlay').classList.remove('show');
+  currentNazo++;
+  if (currentNazo >= nazoData.length) {
+    showTransition(() => { showDonten(); });
+  } else {
+    showTransition(() => { loadNazo(currentNazo); });
+  }
+}
+
+// ===== どんでん返し =====
+function showDonten() {
+  showScreen('screen-donten');
+  updateProgress(5);
+
+  const row = $('answersRowWrong');
+  row.innerHTML = '';
+  wrongAnswers.forEach((w, i) => {
+    const c = document.createElement('div');
+    c.className = 'answer-char';
+    c.textContent = w;
+    row.appendChild(c);
+    if (i < wrongAnswers.length - 1) {
+      const sep = document.createElement('div');
+      sep.className = 'answers-arrow';
+      sep.textContent = '・';
+      row.appendChild(sep);
+    }
+  });
+  // 集めた答えを並べると「すくえない」
+  $('wrongWord').textContent = wrongAnswers.join('');
+  spawnFire(8);
+}
+
+function showDontenHint() {
+  const box = $('dontenHintBox');
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+}
+
+// ===== 解き直し =====
+function goResolve() {
+  showTransition(() => {
+    currentResolve = 0;
+    showScreen('screen-resolve');
+    updateProgress(6);
+    loadResolveNazo(0);
+  });
+}
+
+function loadResolveNazo(index) {
+  const d = resolveData[index];
+  const orig = nazoData[index];
+  $('resolveNazoNumber').textContent = '0' + (index + 1);
+  $('resolveNazoLocation').textContent = d.location;
+  $('resolveNazoText').textContent = orig.text;
+  $('resolveNazoHint').textContent = orig.hintLocation;
+  $('resolveInput').value = '';
+  $('resolveError').classList.remove('show');
+  $('resolveNazoCard').style.display = 'block';
+  $('resolveComplete').style.display = 'none';
+}
+
+function checkResolveAnswer() {
+  const input = $('resolveInput').value.trim();
+  const d = resolveData[currentResolve];
+  if (input === d.correctAnswer) {
+    $('resolveError').classList.remove('show');
+    currentResolve++;
+    if (currentResolve >= resolveData.length) {
+      // 全問正解→完成
+      showResolveComplete();
+    } else {
+      showTransition(() => { loadResolveNazo(currentResolve); });
+    }
+  } else {
+    $('resolveError').classList.add('show');
+    $('resolveInput').style.borderBottomColor = 'var(--ember)';
+    setTimeout(() => { $('resolveInput').style.borderBottomColor = ''; }, 600);
+  }
+}
+
+function showResolveComplete() {
+  $('resolveNazoCard').style.display = 'none';
+  $('resolveComplete').style.display = 'block';
+  updateProgress(7);
+  setTimeout(() => {
+    $('resolveAnswerText').classList.add('show');
+    setTimeout(() => {
+      $('resolveAnswerReading').classList.add('show');
+      setTimeout(() => {
+        $('btnEnding').style.opacity = '0';
+        $('btnEnding').style.transition = 'opacity 0.8s';
+        setTimeout(() => $('btnEnding').style.opacity = '1', 100);
+      }, 800);
+    }, 800);
+  }, 400);
+}
+
+function goEnding() {
+  showTransition(() => {
+    showScreen('screen-ending');
+    updateProgress(8);
+    spawnFire(25);
+    setTimeout(() => spawnFire(15), 1200);
+  });
+}
+
+// Enterキーで解答
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    if ($('screen-nazo').classList.contains('active')) checkAnswer();
+    if ($('screen-resolve').classList.contains('active')) checkResolveAnswer();
+  }
+});
+</script>
+</body>
+</html>
