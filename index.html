@@ -799,9 +799,9 @@
       <div class="diary-text" id="nazoText"></div>
     </div>
     <!-- 謎画像 -->
-    <div id="nazo01Image" style="margin-bottom:16px; text-align:center;">
-      <img id="nazo01Img" src="" alt="謎の手がかり" style="max-width:100%; border-radius:8px; border:1px solid rgba(201,168,76,0.3);">
-      <!-- <img id="nazo01Img" src="" alt="謎の手がかり" style="width: 100px; height: 150px;border-radius:8px; border:1px solid rgba(201,168,76,0.3);"> -->
+    <div style="margin-bottom:16px; text-align:center;">
+      <img id="nazoImg" src="" alt="謎の手がかり" style="max-width:100%; border-radius:8px; border:1px solid rgba(201,168,76,0.3);">
+      <!-- <img id="nazoImg" src="" alt="謎の手がかり" style="width: 100px; height: 150px;border-radius:8px; border:1px solid rgba(201,168,76,0.3);"> -->
     </div>
     <!-- <div class="location-hint" id="nazoLocationHintBlock">
       <div class="location-hint-icon">📍</div>
@@ -856,13 +856,17 @@
       <div class="nazo-number" id="resolveNazoNumber">01</div>
       <div class="nazo-location" id="resolveNazoLocation"></div>
     </div>
+    <!-- 謎画像 -->
+    <div style="margin-bottom:16px; text-align:center;">
+      <img id="resolveNazoImg" src="" alt="謎の手がかり" style="max-width:100%; border-radius:8px; border:1px solid rgba(201,168,76,0.3);">
+    </div>
     <div class="diary-block" style="margin-bottom:20px;">
       <div class="diary-text" id="resolveNazoText"></div>
     </div>
-    <div class="location-hint" style="margin-bottom:24px;">
+    <!-- <div class="location-hint" style="margin-bottom:24px;">
       <div class="location-hint-icon">📍</div>
       <div class="location-hint-text" id="resolveNazoHint"></div>
-    </div>
+    </div> -->
     <div class="answer-area">
       <div class="answer-label">答えを入力せよ（ひらがな一文字）</div>
       <div class="answer-input-row">
@@ -948,44 +952,44 @@ const NAZO01_IMG = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAIVCAIAAA
 const nazoData = [
   {
     number: '01',
-    location: '丸ポスト前',
+    location: '丸ポスト',
     text: 'お花への文を、この赤い筒に何度投じたことか。\n\n筒の腹に漢字が2文字書かれている。\n\n左側の文字が示すひらがなが最初の鍵なり。',
     hintLocation: '',
     nazoImg: 'image01.png',
-    hint: '数字の列は「5・3・1・4」。\n五十音の5番目は……「お」。\n\nだが、本当にそれでよいか。',
+    hint: '絵柄は左からゆう、びん、はい、たつ',
     wrongAnswer: 'す',
     correctAnswer: 'す',
     memoryIndex: 0
   },
   {
     number: '02',
-    location: 'ニッパー君のそば',
-    text: 'この犬によく似た犬が、路地の入口にいた。\n\nいつも小首をかしげ、ある方向を向いておった。\n\n犬の視線の先にある看板——\n\n最初の文字を取れ。',
-    hintLocation: 'ビクター犬（ニッパー君）の置物\n犬が向いている方向を確認せよ',
+    location: 'ニッパー君',
+    text: '犬が苦手なお花は路地の入口の犬も、\n\n交番横の犬の置物でさえも怖がってしまう。\n\n犬の名を四角に入れ——\n\n➀➁から➂まで辿れ。',
+    hintLocation: '',
     nazoImg: 'image01.png',
-    hint: '犬の視線の先の看板に「く・え・ま」と書かれている。\n最初の文字は「く」。\n\nだが、本当にそれでよいか。',
+    hint: '迷路の途中の文字を拾え',
     wrongAnswer: 'く',
     correctAnswer: 'く',
     memoryIndex: 1
   },
   {
     number: '03',
-    location: '稲荷神社の前',
-    text: 'お花はこの神社でいつも手を合わせた。\n\n社の中にある小さな箱の赤い文字——\n\n左から右に辿れ。\n\n神様が教えてくれる。',
-    hintLocation: '滝見小路の稲荷神社\n鳥居の柱の本数を数えよ（日記の図を参照）',
+    location: '稲荷神社',
+    text: 'お花はこの神社でいつも手を合わせた。\n\n社の中にある小さな箱の赤い文字を左側の文字から順に辿れ。\n\n神様が教えてくれる。',
+    hintLocation: '',
     nazoImg: 'image03.png',
-    hint: '柱の本数は5本。\n五十音の5番目は「お」。\n\nだが、本当にそれでよいか。',
+    hint: '絵柄は左からナス、砂、タネ、ひな',
     wrongAnswer: 'え',
     correctAnswer: 'え',
     memoryIndex: 2
   },
   {
     number: '04',
-    location: 'ミゼットの荷台',
-    text: '路地の男たちはみなこの車で荷を運んだ。\n\n荷台の板の数を数えよ。\n\nその数が、次の鍵だ。',
-    hintLocation: 'ダイハツ・ミゼット（三輪自動車）\n荷台の木の板の枚数を数えよ',
+    location: 'ミゼット',
+    text: '路地の男たちはみなこの車で荷を運んだ。\n\n三輪自動車の名前に含まれる数字から鍵を導け。',
+    hintLocation: '',
     nazoImg: 'image01.png',
-    hint: '板の枚数は6枚。\n五十音の6番目は「む」。\n\nだが、本当にそれでよいか。',
+    hint: '',
     wrongAnswer: 'な',
     correctAnswer: 'な',
     memoryIndex: 3
@@ -996,7 +1000,7 @@ const nazoData = [
     text: '火事の夜、わしとお花はこの井戸の前に立っておった。\n\n井戸を囲む石畳——その数を数えよ。\n\nその夜の記憶が、最後の鍵になる。',
     hintLocation: '滝見小路の井戸\n井戸の周囲を囲む石畳の数を数えよ',
     nazoImg: 'image01.png',
-    hint: '石畳の数は3個。\n五十音の3番目は「う」。\n\nだが、本当にそれでよいか。',
+    hint: '',
     wrongAnswer: 'い',
     correctAnswer: 'い',
     memoryIndex: 4
@@ -1005,11 +1009,11 @@ const nazoData = [
 
 // 解き直し用：正解は逆から読んだ答え
 const resolveData = [
-  { location: '丸ポスト前',   wrongAnswer: 'す', correctAnswer: 'ま', hint: '数字の列を逆から読み直せ。\n右端の数字から数えよ。' },
-  { location: 'ニッパー君',   wrongAnswer: 'く', correctAnswer: 'え', hint: '看板の文字を逆から読み直せ。' },
-  { location: '稲荷神社',     wrongAnswer: 'え', correctAnswer: 'に', hint: '鳥居を逆から数えよ。' },
-  { location: 'ミゼットの荷台', wrongAnswer: 'な', correctAnswer: 'い', hint: '荷台の板を逆から数えよ。' },
-  { location: '井戸の前',     wrongAnswer: 'い', correctAnswer: 'け', hint: '石畳を逆から数えよ。' }
+  { wrongAnswer: 'す', correctAnswer: 'ま', hint: '数字の列を逆から読み直せ。\n右端の数字から数えよ。' },
+  { wrongAnswer: 'く', correctAnswer: 'え', hint: '看板の文字を逆から読み直せ。' },
+  { wrongAnswer: 'え', correctAnswer: 'に', hint: '鳥居を逆から数えよ。' },
+  { wrongAnswer: 'な', correctAnswer: 'い', hint: '荷台の板を逆から数えよ。' },
+  { wrongAnswer: 'い', correctAnswer: 'け', hint: '石畳を逆から数えよ。' }
 ];
 
 const memories = [
@@ -1113,7 +1117,7 @@ function loadNazo(index) {
   $('nazoLocation').textContent = d.location;
   $('nazoText').textContent = d.text;
   //$('nazoHintLocation').textContent = d.hintLocation;
-  $('nazo01Img').src = d.nazoImg;
+  $('nazoImg').src = d.nazoImg;
   $('hintText').textContent = d.hint;
   $('hintText').classList.remove('show');
   $('answerInput').value = '';
@@ -1206,9 +1210,10 @@ function loadResolveNazo(index) {
   const d = resolveData[index];
   const orig = nazoData[index];
   $('resolveNazoNumber').textContent = '0' + (index + 1);
-  $('resolveNazoLocation').textContent = d.location;
+  $('resolveNazoLocation').textContent = orig.location;
+  $('resolveNazoImg') = orig.nazoImg;
   $('resolveNazoText').textContent = orig.text;
-  $('resolveNazoHint').textContent = orig.hintLocation;
+  //$('resolveNazoHint').textContent = orig.hintLocation;
   $('resolveInput').value = '';
   $('resolveError').classList.remove('show');
   $('resolveNazoCard').style.display = 'block';
