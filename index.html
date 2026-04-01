@@ -798,15 +798,15 @@
     <div class="diary-block">
       <div class="diary-text" id="nazoText"></div>
     </div>
+    <div class="location-hint" id="nazoLocationHintBlock">
+      <div class="location-hint-icon">📍</div>
+      <div class="location-hint-text" id="nazoHintLocation"></div>
+    </div>
     <!-- 謎画像 -->
     <div style="margin-bottom:16px; text-align:center;">
       <img id="nazoImg" src="" alt="謎の手がかり" style="max-width:100%; border-radius:8px; border:1px solid rgba(201,168,76,0.3);">
       <!-- <img id="nazoImg" src="" alt="謎の手がかり" style="width: 100px; height: 150px;border-radius:8px; border:1px solid rgba(201,168,76,0.3);"> -->
     </div>
-    <!-- <div class="location-hint" id="nazoLocationHintBlock">
-      <div class="location-hint-icon">📍</div>
-      <div class="location-hint-text" id="nazoHintLocation"></div>
-    </div> -->
     <div class="answer-area">
       <div class="answer-label">答えを入力せよ（ひらがな一文字）</div>
       <div class="answer-input-row">
@@ -837,7 +837,7 @@
 
   <button class="btn-hint-link" onclick="showDontenHint()" style="background:none;border:none;color:rgba(107,92,74,0.5);font-size:11px;letter-spacing:0.2em;cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-family:'Noto Serif JP',serif;margin-top:8px;display:block;">解けない</button>
   <div id="dontenHintBox" style="display:none; margin-top:20px; padding:20px 20px; border:1px dashed rgba(139,105,20,0.25); font-size:12px; color:rgba(139,105,20,0.75); line-height:2.4; letter-spacing:0.1em;">
-    大正時代の文字の並びは、現代とは逆順だった。<br><br>
+    大正時代の横書きの文字の並びは、現代とは逆だった。<br><br>
     現代：左 → 右<br>
     大正：右 → 左<br>
   </div>
@@ -857,21 +857,23 @@
     <div class="diary-block" style="margin-bottom:20px;">
       <div class="diary-text" id="resolveNazoText"></div>
     </div>
+    <div class="location-hint" style="margin-bottom:24px;">
+      <div class="location-hint-icon">📍</div>
+      <div class="location-hint-text" id="resolveNazoHint"></div>
+    </div>
     <!-- 謎画像 -->
     <div style="margin-bottom:16px; text-align:center;">
       <img id="resolveNazoImg" src="" alt="謎の手がかり" style="max-width:100%; border-radius:8px; border:1px solid rgba(201,168,76,0.3);">
     </div>
-    <!-- <div class="location-hint" style="margin-bottom:24px;">
-      <div class="location-hint-icon">📍</div>
-      <div class="location-hint-text" id="resolveNazoHint"></div>
-    </div> -->
     <div class="answer-area">
       <div class="answer-label">答えを入力せよ（ひらがな一文字）</div>
       <div class="answer-input-row">
         <input class="answer-input" id="resolveInput" type="text" maxlength="3" placeholder="こたえ" autocomplete="off">
         <button class="btn-answer" onclick="checkResolveAnswer()">解く</button>
-      </div>
-      <div class="answer-error" id="resolveError">違う。今度こそ、逆から考えよ。</div>
+      </div> 
+      <div class="answer-error" id="resolveError">違う。もう一度考えよ。</div>
+      <button class="btn-hint" onclick="resolveToggleHint()">手がかりが欲しい</button>
+      <div class="hint-text" id="resolveHintText"></div>
     </div>
   </div>
 
@@ -882,8 +884,8 @@
     </div>
     <div style="margin-top:28px; font-size:13px; line-height:2.8; color:rgba(212,184,150,0.8); border-top:1px solid rgba(201,168,76,0.12); padding-top:28px;">
       日記の謎をすべて解き終わったとき、信じられない光景が目の前に現れた。<br><br>
-      火の海に囲まれた着物姿の若い男女が身を小さく屈めている。<br><br>
-      そしてその背後には今にも崩れそうな大きな棚。<br><br>
+      火の海に囲まれた身を小さく屈める着物姿の男女。<br><br>
+      そしてその背後の大きな屋根は今にも崩れかけている。<br><br>
       俺は思わず叫んだ。<br><br>
       <span style="font-family:'Shippori Mincho',serif; font-size:17px; color:var(--paper); letter-spacing:0.15em;">前に行け！</span><br><br>
       その刹那、幻は消えた。<br><br>
@@ -938,6 +940,7 @@
     <em style="color:var(--gold); font-size:18px; font-family:'Shippori Mincho',serif; font-style:normal;">今日、叶った。</em>
     <strong>— 了 —</strong>
   </div>
+  <button class="btn-start" onclick="closePage()">画面を閉じる</button>
 </div>
 
 </div><!-- /app -->
@@ -949,7 +952,7 @@ const nazoData = [
     number: '01',
     location: '丸ポスト',
     text: 'お花への文を、この赤い筒に何度投じたことか。\n\n筒の腹に漢字が2文字書かれている。\n\n左側の文字が示すひらがなが最初の鍵なり。',
-    hintLocation: '',
+    hintLocation: '郵便局の前を探せ',
     nazoImg: 'image01.png',
     hint: '絵柄は左からゆう、びん、はい、たつ',
     wrongAnswer: 'す',
@@ -960,7 +963,7 @@ const nazoData = [
     number: '02',
     location: 'ニッパー君',
     text: '犬が苦手なお花は路地の入口の犬も、\n\n交番横の犬の置物でさえも怖がってしまう。\n\n犬の名を四角に入れ——\n\n➀➁から➂まで辿れ。',
-    hintLocation: '',
+    hintLocation: '滝見交番左の白い犬を探せ',
     nazoImg: 'image02.png',
     hint: '迷路の途中の文字を拾え',
     wrongAnswer: 'く',
@@ -971,7 +974,7 @@ const nazoData = [
     number: '03',
     location: '稲荷神社',
     text: 'お花はこの神社でいつも手を合わせた。\n\n社の中にある小さな箱の赤い文字を左側の文字から順に辿れ。\n\n神様が教えてくれる。',
-    hintLocation: '',
+    hintLocation: '交番の左手奥の神社を探せ',
     nazoImg: 'image03.png',
     hint: '絵柄は左からナス、砂、タネ、ひな',
     wrongAnswer: 'え',
@@ -982,7 +985,7 @@ const nazoData = [
     number: '04',
     location: '煙草屋',
     text: '辻を曲がるごとに煙草屋が軒先を構え、路地のどこにいても甘い葉の香りが漂っていた。\n\n煙草屋の正式名をあてはめ★の位置のひらがなを答えよ。',
-    hintLocation: '',
+    hintLocation: '神社の奥の立て札を探せ',
     nazoImg: 'image04.png',
     hint: '煙草屋の正式名は煙草小売所\n\n火のない所に煙は立たず',
     wrongAnswer: 'な',
@@ -993,7 +996,7 @@ const nazoData = [
     number: '05',
     location: '井戸の前',
     text: '火事の夜、わしとお花はこの井戸の前に立っておった。\n\n井戸の近くに手押しの消防ポンプがあったが混乱のなかでは役に立たなかった。\n\n消防ポンプの名前が、最後の鍵になる。',
-    hintLocation: '',
+    hintLocation: '神社近くの木製のからくりの左の看板を見よ',
     nazoImg: 'image05.png',
     hint: '消防ポンプの名前は雲龍水',
     wrongAnswer: 'い',
@@ -1004,11 +1007,11 @@ const nazoData = [
 
 // 解き直し用：正解は逆から読んだ答え
 const resolveData = [
-  { wrongAnswer: 'す', correctAnswer: 'ま'},
-  { wrongAnswer: 'く', correctAnswer: 'え'},
-  { wrongAnswer: 'え', correctAnswer: 'に'},
-  { wrongAnswer: 'な', correctAnswer: 'い'},
-  { wrongAnswer: 'い', correctAnswer: 'け'}
+  { wrongAnswer: 'す', correctAnswer: 'ま', hint: '大正時代の横書きの文字の並びは、現代とは逆だった' },
+  { wrongAnswer: 'く', correctAnswer: 'え', hint: '大正時代の横書きの文字の並びは、現代とは逆だった' },
+  { wrongAnswer: 'え', correctAnswer: 'に', hint: '大正時代の横書きの文字の並びは、現代とは逆だった' },
+  { wrongAnswer: 'な', correctAnswer: 'い', hint: '大正時代の横書きの文字の並びは、現代とは逆だった' },
+  { wrongAnswer: 'い', correctAnswer: 'け', hint: '大正時代の横書きの文字の並びは、現代とは逆だった' }
 ];
 
 const memories = [
@@ -1043,6 +1046,7 @@ const memories = [
 let currentNazo = 0;
 let wrongAnswers = [];
 let hintVisible = false;
+let resolveHintVisible = false;
 let memoryVisible = false;
 let currentResolve = 0;
 
@@ -1111,13 +1115,16 @@ function loadNazo(index) {
   $('nazoNumber').textContent = d.number;
   $('nazoLocation').textContent = d.location;
   $('nazoText').textContent = d.text;
-  //$('nazoHintLocation').textContent = d.hintLocation;
+  $('nazoHintLocation').textContent = d.hintLocation;
   $('nazoImg').src = d.nazoImg;
   $('hintText').textContent = d.hint;
   $('hintText').classList.remove('show');
   $('answerInput').value = '';
   $('answerError').classList.remove('show');
   hintVisible = false;
+  resolveHintVisible = false;
+  $('hintText').classList.toggle('show', false);
+  $('resolveHintText').classList.toggle('show', false);
   updateProgress(index);
   window.scrollTo(0, 0);
 }
@@ -1125,6 +1132,11 @@ function loadNazo(index) {
 function toggleHint() {
   hintVisible = !hintVisible;
   $('hintText').classList.toggle('show', hintVisible);
+}
+
+function resolveToggleHint() {
+  resolveHintVisible = !resolveHintVisible;
+  $('resolveHintText').classList.toggle('show', resolveHintVisible);
 }
 
 function checkAnswer() {
@@ -1212,11 +1224,16 @@ function loadResolveNazo(index) {
   $('resolveNazoLocation').textContent = orig.location;
   $('resolveNazoImg').src = orig.nazoImg;
   $('resolveNazoText').textContent = orig.text;
-  //$('resolveNazoHint').textContent = orig.hintLocation;
+  $('resolveNazoHint').textContent = orig.hintLocation;
+  $('resolveHintText').textContent = d.hint;
   $('resolveInput').value = '';
   $('resolveError').classList.remove('show');
   $('resolveNazoCard').style.display = 'block';
   $('resolveComplete').style.display = 'none';
+  hintVisible = false;
+  resolveHintVisible = false;
+  $('hintText').classList.toggle('show', false);
+  $('resolveHintText').classList.toggle('show', false);
   window.scrollTo(0, 0);
 }
 
@@ -1264,6 +1281,9 @@ function goEnding() {
   });
 }
 
+function closePage() {
+}
+
 // Enterキーで解答
 document.addEventListener('keydown', e => {
   if (e.key === 'Enter') {
@@ -1271,6 +1291,9 @@ document.addEventListener('keydown', e => {
     if ($('screen-resolve').classList.contains('active')) checkResolveAnswer();
   }
 });
+window.onbeforeunload = function () {
+  return "リロード禁止です！";
+};
 </script>
 </body>
 </html>
