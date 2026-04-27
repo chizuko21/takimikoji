@@ -791,16 +791,16 @@
 <!-- ===== 謎①〜⑤ ===== -->
 <div id="screen-nazo" class="screen" style="display:none; flex-direction:column; min-height:100vh;">
   <div class="nazo-card">
+    <div class="location-hint" id="nazoLocationHintBlock">
+      <div class="location-hint-icon">📍</div>
+      <div class="location-hint-text" id="nazoHintLocation"></div>
+    </div>
     <div class="nazo-header">
       <div class="nazo-number" id="nazoNumber">01</div>
       <div class="nazo-location" id="nazoLocation"></div>
     </div>
     <div class="diary-block">
       <div class="diary-text" id="nazoText"></div>
-    </div>
-    <div class="location-hint" id="nazoLocationHintBlock">
-      <div class="location-hint-icon">📍</div>
-      <div class="location-hint-text" id="nazoHintLocation"></div>
     </div>
     <!-- 謎画像 -->
     <div style="margin-bottom:16px; text-align:center;">
@@ -854,12 +854,12 @@
       <div class="nazo-number" id="resolveNazoNumber">01</div>
       <div class="nazo-location" id="resolveNazoLocation"></div>
     </div>
-    <div class="diary-block" style="margin-bottom:20px;">
-      <div class="diary-text" id="resolveNazoText"></div>
-    </div>
     <div class="location-hint" style="margin-bottom:24px;">
       <div class="location-hint-icon">📍</div>
       <div class="location-hint-text" id="resolveNazoHint"></div>
+    </div>
+    <div class="diary-block" style="margin-bottom:20px;">
+      <div class="diary-text" id="resolveNazoText"></div>
     </div>
     <!-- 謎画像 -->
     <div style="margin-bottom:16px; text-align:center;">
@@ -951,8 +951,8 @@ const nazoData = [
   {
     number: '01',
     location: '朱の函',
-    text: 'お花への文を、この赤い筒に何度投じたことか。\n\n筒の腹に漢字が2文字書かれている。\n\n左側の文字が示すひらがなが最初の鍵なり。',
-    hintLocation: '郵便局の前を探せ',
+    text: 'お花への文を、この赤い筒に何度投じたことか。\n\n筒の顔に漢字が2文字書かれている。\n\n左側の文字が示すひらがな1文字が最初の鍵なり。',
+    hintLocation: '郵便局の前の赤い筒を探せ',
     nazoImg: 'image01.png',
     hint: '絵柄は左からゆう、びん、はい、たつ',
     wrongAnswer: 'す',
@@ -963,7 +963,7 @@ const nazoData = [
     number: '02',
     location: '物言わぬ番犬',
     text: '犬が苦手なお花は路地の入口の犬も、\n\n交番横の犬の置物でさえも怖がってしまう。\n\n犬の名を四角に入れ——\n\n➀➁から➂まで辿れ。',
-    hintLocation: '滝見交番左の白い犬を探せ',
+    hintLocation: '赤い筒を背に右斜め前の道を進み滝見交番左の白い犬を探せ',
     nazoImg: 'image02.png',
     hint: '迷路の途中の文字を拾え',
     wrongAnswer: 'く',
@@ -984,8 +984,8 @@ const nazoData = [
   {
     number: '04',
     location: '琥珀色の窓口',
-    text: '辻を曲がるごとに煙草屋が軒先を構え、路地のどこにいても甘い葉の香りが漂っていた。\n\n煙草屋の正式名をあてはめ★の位置のひらがなを答えよ。',
-    hintLocation: '神社の奥の立て札を探せ',
+    text: '辻を曲がるごとに煙草屋が軒先を構え、路地のどこにいても甘い葉の香りが漂っていた。\n\n煙草屋の正式名をあてはめ★の位置のひらがな1文字を答えよ。',
+    hintLocation: '神社の左奥の赤い立て札を探せ',
     nazoImg: 'image04.png',
     hint: '煙草屋の正式名は煙草小売所\n\n火のない所に煙は立たず',
     wrongAnswer: 'な',
@@ -996,7 +996,7 @@ const nazoData = [
     number: '05',
     location: 'えにしを結ぶ水',
     text: '火事の夜、わしとお花はこの井戸の前に立っておった。\n\n井戸の近くに手押しの消防ポンプがあったが混乱のなかでは役に立たなかった。\n\n消防ポンプの名前が、最後の鍵になる。',
-    hintLocation: '神社近くの木製のからくりの左の看板を見よ',
+    hintLocation: '神社の左奥の四角い木製のからくりの左の看板を見よ',
     nazoImg: 'image05.png',
     hint: '消防ポンプの名前は雲龍水',
     wrongAnswer: 'い',
